@@ -6,7 +6,9 @@ class Leg:
     def __init__(self, hip_servo_id=-1, knee_servo_id=-1, inverted=False):
         if not isinstance(inverted, bool): inverted = False
 
+        self._hip_servo_id = hip_servo_id
         self._hip = None
+        self._knee_servo_id = knee_servo_id
         self._knee = None
         self._inverted = inverted
         self._running = False
@@ -33,8 +35,8 @@ class Leg:
         if speed == 0: return
 
         if self._inverted: servo_position *= -1
-        servo_position += SERVO_ZERO_POSITION
-        servo_position = max(HIP_SERVO_MIN_POSITION, min(servo_position, HIP_SERVO_MAX_POSITION))
+        servo_position += SERVO_ZERO_POSITION[self._hip_servo_id]
+        servo_position = max(HIP_SERVO_MIN_POSITION[self._hip_servo_id], min(servo_position, HIP_SERVO_MAX_POSITION[self._hip_servo_id]))
 
         while abs(self._hip.get_physical_angle() - self._hip.get_commanded_angle()) > SERVO_TOLERANCE:
             continue
@@ -53,8 +55,8 @@ class Leg:
         if speed == 0: return
 
         if self._inverted: servo_position *= -1
-        servo_position += SERVO_ZERO_POSITION
-        servo_position = max(KNEE_SERVO_MIN_POSITION, min(servo_position, KNEE_SERVO_MAX_POSITION))
+        servo_position += SERVO_ZERO_POSITION[self._knee_servo_id]
+        servo_position = max(KNEE_SERVO_MIN_POSITION[self._knee_servo_id], min(servo_position, KNEE_SERVO_MAX_POSITION[self._knee_servo_id]))
 
         while abs(self._knee.get_physical_angle() - self._knee.get_commanded_angle()) > SERVO_TOLERANCE:
             continue
