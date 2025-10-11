@@ -13,7 +13,9 @@ class Leg:
         self._inverted = inverted
         self._running = False
 
-        LX16A.initialize("COM3")
+        if (not hip_servo_id in SERVO_ZERO_POSITION or not hip_servo_id in HIP_SERVO_MIN_POSITION or
+                not knee_servo_id in SERVO_ZERO_POSITION or not knee_servo_id in KNEE_SERVO_MIN_POSITION):
+            return
 
         try:
             self._hip = LX16A(hip_servo_id)
@@ -77,7 +79,7 @@ class Leg:
         self._hip.move_stop()
 
     def stop_knee(self):
-        self._hip.move_stop()
+        self._knee.move_stop()
 
     def stop_all(self):
         self._hip.move_stop()
