@@ -2,24 +2,15 @@ from pylx16a.lx16a import *
 import time
 
 from constants import *
+from chassis import Chassis
 from leg import Leg
 
 if __name__ == "__main__":
     LX16A.initialize("COM3")
 
-    fl_leg = Leg(hip_servo_id=FL_HIP_SERVO_ID, knee_servo_id=FL_KNEE_SERVO_ID, inverted=False)
-    fr_leg = Leg(hip_servo_id=FR_HIP_SERVO_ID, knee_servo_id=FR_KNEE_SERVO_ID, inverted=True)
-    bl_leg = Leg(hip_servo_id=BL_HIP_SERVO_ID, knee_servo_id=BL_KNEE_SERVO_ID, inverted=False)
-    br_leg = Leg(hip_servo_id=BR_HIP_SERVO_ID, knee_servo_id=BR_KNEE_SERVO_ID, inverted=True)
+    chassis = Chassis(fl_hip_servo_id=FL_HIP_SERVO_ID, fl_knee_servo_id=FL_KNEE_SERVO_ID, fr_hip_servo_id=FR_HIP_SERVO_ID, fr_knee_servo_id=FR_KNEE_SERVO_ID,
+                      bl_hip_servo_id=BL_HIP_SERVO_ID, bl_knee_servo_id=BL_KNEE_SERVO_ID, br_hip_servo_id=BR_HIP_SERVO_ID, br_knee_servo_id=BR_KNEE_SERVO_ID)
+    chassis.sit()
+    time.sleep(1)
 
-    fl_leg.move_all(hip_servo_position=0, knee_servo_position=0, hip_speed=1, knee_speed=1)
-    fr_leg.move_all(hip_servo_position=0, knee_servo_position=0, hip_speed=1, knee_speed=1)
-    bl_leg.move_all(hip_servo_position=0, knee_servo_position=0, hip_speed=1, knee_speed=1)
-    br_leg.move_all(hip_servo_position=0, knee_servo_position=0, hip_speed=1, knee_speed=1)
-
-    time.sleep(3)
-
-    fl_leg.move_all(hip_servo_position=-75, knee_servo_position=100, hip_speed=1, knee_speed=1)
-    fr_leg.move_all(hip_servo_position=-75, knee_servo_position=100, hip_speed=1, knee_speed=1)
-    bl_leg.move_all(hip_servo_position=75, knee_servo_position=-100, hip_speed=1, knee_speed=1)
-    br_leg.move_all(hip_servo_position=75, knee_servo_position=-100, hip_speed=1, knee_speed=1)
+    chassis.walk(5000)
