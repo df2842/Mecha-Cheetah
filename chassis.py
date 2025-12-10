@@ -46,8 +46,10 @@ class Chassis:
     def walk(self, time_ms):
         start_time = time.time() * 1000.0
         speed = 0.5
-        current_phase = 1
         
+        cycle_time = 0.19
+        
+        current_phase = 4
         self.stand()
 
         while (time.time() * 1000.0 - start_time) < time_ms:
@@ -64,17 +66,17 @@ class Chassis:
                 moves = self._phase4_cmds
                 current_phase = 1
 
-            self._fl_leg.move_all(hip_servo_position=moves["fl"]["hip"], knee_servo_position=moves["fl"]["knee"],
+            self._fl_leg.move_all(hip_servo_position=moves["fl"]["hip"], knee_servo_position=moves["fl"]["knee"], 
                                   hip_speed=moves["fl"]["hip_speed_scalar"] * speed, knee_speed=moves["fl"]["knee_speed_scalar"] * speed)
-            self._fr_leg.move_all(hip_servo_position=moves["fr"]["hip"], knee_servo_position=moves["fr"]["knee"],
+            self._fr_leg.move_all(hip_servo_position=moves["fr"]["hip"], knee_servo_position=moves["fr"]["knee"], 
                                   hip_speed=moves["fr"]["hip_speed_scalar"] * speed, knee_speed=moves["fr"]["knee_speed_scalar"] * speed)
-            self._bl_leg.move_all(hip_servo_position=moves["bl"]["hip"], knee_servo_position=moves["bl"]["knee"],
+            self._bl_leg.move_all(hip_servo_position=moves["bl"]["hip"], knee_servo_position=moves["bl"]["knee"], 
                                   hip_speed=moves["bl"]["hip_speed_scalar"] * speed, knee_speed=moves["bl"]["knee_speed_scalar"] * speed)
-            self._br_leg.move_all(hip_servo_position=moves["br"]["hip"], knee_servo_position=moves["br"]["knee"],
+            self._br_leg.move_all(hip_servo_position=moves["br"]["hip"], knee_servo_position=moves["br"]["knee"], 
                                   hip_speed=moves["br"]["hip_speed_scalar"] * speed, knee_speed=moves["br"]["knee_speed_scalar"] * speed)
 
-            self.wait_for_legs_idle()
-
+            time.sleep(cycle_time)
+            
         self.stand()
 
     def sit(self):
